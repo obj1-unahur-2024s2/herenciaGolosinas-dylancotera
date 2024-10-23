@@ -34,11 +34,12 @@ class Alfajor {
 
 class Caramelo {
 	var peso = 5
+	var sabor
 
 	method precio() { return 12 }
 	method peso() { return peso }
 	method mordisco() { peso = peso - 1 }
-	method sabor() { return frutilla }
+    method sabor() { return sabor }
 	method libreGluten() { return true }
 }
 
@@ -119,4 +120,55 @@ class Tuttifrutti {
 	method peso() { return 5 }
 	method libreGluten() { return libreDeGluten }	
 	method libreGluten(valor) { libreDeGluten = valor }
+}
+
+// Bombones duros
+ class BombonDuro inherits Bombon{
+	override method mordisco() { peso = peso - 1 }
+
+	method gradoDeDureza() = if( peso > 12 ) { 3 }
+							else if ( peso.between(8, 12) ) { 2 }
+							else { 1 }
+ }
+
+// Caramelos con corazón de chocolate (Rellenos)
+
+class CarameloConChocolate inherits Caramelo{
+	override method mordisco() { 
+		peso = peso - 1  
+		sabor = chocolate	
+	}
+	override method precio() = super() + 1
+}
+
+
+// Obleas Crujientes
+
+class ObleaCrujiente inherits Oblea {
+	var cantidadMordiscos = 0
+
+	override method mordisco() {  
+		super()
+		cantidadMordiscos = cantidadMordiscos + 1
+		if ( cantidadMordiscos <= 3 )  
+		{peso =- 3 }	
+	}
+
+	method estaDebil() = cantidadMordiscos > 3
+}
+
+
+// Chocolatines VIP y Chocolatines Premium
+
+class ChocolatinVip inherits Chocolatin{
+	override method peso() = super() * (1 + self.humedad())
+	method humedad() = heladera.humedad()
+}
+
+object heladera {
+	var property humedad = 0.2
+}
+
+class ChocolatinPremium inherits ChocolatinVip {
+	override method humedad() = super() / 2
 }
